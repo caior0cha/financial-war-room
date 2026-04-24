@@ -7,6 +7,7 @@ import { dreAnual, monthlyRevenue } from '../data/mockData';
 import { fmt, exportCSV } from '../utils/helpers';
 import { KPICard, SectionHeader, Card, Divider } from '../components/ui/index';
 import Topbar from '../components/layout/Topbar';
+import { CustomTooltip } from '../components/ui';
 
 const CTooltip = ({ active, payload, label }) => {
   const validPayload = (payload || []).filter(p => p?.value !== null && p?.value !== undefined);
@@ -145,17 +146,28 @@ export default function DREPage({ onMobileMenu }) {
                 <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#475569', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false} angle={-30} textAnchor="end" />
                 <YAxis tick={{ fontSize: 11, fill: '#475569', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false} tickFormatter={v => fmt.currency(v, true)} width={72} />
                 <Tooltip
-                  content={({ active, payload, label }) => {
-                    if (!active || !payload?.length) return null;
-                    const item = waterfallData.find(d => d.name === label);
-                    return (
-                      <div className="bg-white border border-slate-200 rounded-lg p-3 text-xs mono shadow-xl">
-                        <p className="text-slate-900 font-medium mb-1">{label}</p>
-                        <p className="text-slate-700">{fmt.currency(item?.value ?? 0)}</p>
-                      </div>
-                    );
-                  }}
-                />
+  // Importante: Tirar os estilos padrão do Recharts
+  contentStyle={{ backgroundColor: 'transparent', border: 'none' }}
+  itemStyle={{ padding: 0 }}
+  cursor={{ fill: 'transparent' }} 
+  content={({ active, payload, label }) => {
+    if (!active || !payload?.length) return null;
+    
+    // Procura o item no waterfallData
+    const item = waterfallData.find(d => d.name === label);
+    
+    return (
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg p-3 text-xs shadow-xl ring-1 ring-black/5 dark:ring-white/5">
+        <p className="text-slate-900 dark:text-slate-200 font-bold mb-1 border-b border-slate-100 dark:border-white/10 pb-1">
+          {label}
+        </p>
+        <p className="text-slate-700 dark:text-slate-400 font-mono">
+          {fmt.currency(item?.value ?? 0)}
+        </p>
+      </div>
+    );
+  }}
+/>
                 {/* Transparent base bar */}
                 <Bar dataKey="base" fill="transparent" stackId="w" />
                 <Bar dataKey="value" stackId="w" radius={[3,3,0,0]}>
@@ -176,7 +188,7 @@ export default function DREPage({ onMobileMenu }) {
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
               <XAxis dataKey="mes" tick={{ fontSize: 11, fill: '#475569', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false} />
               <YAxis tick={{ fontSize: 11, fill: '#475569', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false} tickFormatter={v => `${v}%`} width={46} />
-              <Tooltip content={<CTooltip />} />
+              <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent', stroke: 'rgba(255,255,255,0.1)' }} />
               <ReferenceLine y={15} stroke="rgba(245,158,11,0.3)" strokeDasharray="4 3" label={{ value: 'Meta 15%', fill: '#F59E0B', fontSize: 9 }} />
               <Line type="monotone" dataKey="bruta"  name="Mg. Bruta"  stroke="#F59E0B" strokeWidth={2} dot={false} />
               <Line type="monotone" dataKey="ebitda" name="EBITDA%"    stroke="#3B82F6" strokeWidth={2} dot={false} />

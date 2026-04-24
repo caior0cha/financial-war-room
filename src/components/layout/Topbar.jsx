@@ -31,7 +31,7 @@ export default function Topbar({ title, subtitle, onMobileMenu }) {
       <span className="hidden lg:block text-gray-600 text-xs mono capitalize">{now}</span>
 
       {/* Actions */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <button
           onClick={toggle}
           className="w-8 h-8 flex items-center justify-center rounded-md text-gray-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/[0.07] transition-all"
@@ -50,9 +50,16 @@ export default function Topbar({ title, subtitle, onMobileMenu }) {
 
         <div className="w-px h-5 bg-white/10 mx-1" />
 
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-emerald-400 alert-dot" />
-          <span className="text-xs text-gray-500 hidden sm:block">Live</span>
+        {/* Perfil do Usuário */}
+        <div className="flex items-center gap-3 pl-1 cursor-pointer hover:opacity-80 transition-opacity">
+          <span className="text-sm text-gray-400 hidden sm:block">
+            Olá, <span className="text-slate-200 font-medium">Caio</span>
+          </span>
+          <img 
+            src="https://ui-avatars.com/api/?name=Caio+Rocha&background=0D8ABC&color=fff&rounded=true" 
+            alt="Avatar do usuário" 
+            className="w-8 h-8 rounded-full border border-white/10"
+          />
         </div>
       </div>
     </header>

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Bell, CheckCircle, AlertTriangle, Info, XCircle, Check } from 'lucide-react';
-import { alertas as initialAlertas } from '../data/mockData';
 import { alertTypeStyle } from '../components/ui/index';
 import Topbar from '../components/layout/Topbar';
+// NOVO IMPORT: Trazendo o nosso Hook global
+import { useAlerts } from '../hooks/useAlerts';
 
 const TIPO_ICONS = {
   danger:  XCircle,
@@ -14,11 +15,17 @@ const TIPO_ICONS = {
 const TIPO_LABELS = { danger: 'Crítico', warning: 'Atenção', info: 'Info', success: 'Sucesso' };
 
 export default function AlertasPage({ onMobileMenu }) {
-  const [alertas, setAlertas] = useState(initialAlertas);
-  const [filter, setFilter]   = useState('todos');
+  // ATUALIZAÇÃO AQUI: Em vez de usar useState local e mockData, puxamos do Contexto!
+  // Note que renomeamos as variáveis do hook para bater exatamente com o que seu código já usava.
+  const { 
+    alerts: alertas, 
+    unreadCount: unread, 
+    markAsRead: marcarLido, 
+    markAllAsRead: marcarTodos 
+  } = useAlerts();
 
-  const marcarLido = (id) => setAlertas(a => a.map(x => x.id === id ? { ...x, lido: true } : x));
-  const marcarTodos = () => setAlertas(a => a.map(x => ({ ...x, lido: true })));
+  // O filtro continua sendo local, pois só afeta a visualização desta tela
+  const [filter, setFilter]   = useState('todos');
 
   const filtered = alertas.filter(a => {
     if (filter === 'nao_lidos') return !a.lido;
@@ -26,8 +33,6 @@ export default function AlertasPage({ onMobileMenu }) {
     if (['danger','warning','info','success'].includes(filter)) return a.tipo === filter;
     return true;
   });
-
-  const unread = alertas.filter(a => !a.lido).length;
 
   const summary = [
     { tipo: 'danger',  label: 'Críticos',  count: alertas.filter(a=>a.tipo==='danger').length },
@@ -61,33 +66,35 @@ export default function AlertasPage({ onMobileMenu }) {
           })}
         </div>
 
-{/* Controls */}
-<div className="flex items-center justify-between flex-wrap gap-3">
-  <div className="flex gap-1">
-    {[
-      { key: 'todos', label: `Todos (${alertas.length})` },
-      { key: 'nao_lidos', label: `Não lidos (${unread})` },
-      { key: 'lidos', label: 'Lidos' },
-    ].map(f => (
-      <button key={f.key} onClick={() => setFilter(f.key)}
-        className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all border
-          ${filter === f.key 
-            ? 'bg-amber-500/10 text-amber-600 border-amber-500/30 dark:bg-amber-500/20 dark:text-amber-400' 
-            : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-200/50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/[0.07]'}`}>
-        {f.label}
-      </button>
-    ))}
-  </div>
-  {unread > 0 && (
-    <button onClick={marcarTodos}
-      className="flex items-center gap-1.5 px-3 py-1.5 border rounded text-sm transition-all
-        bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200 hover:text-slate-900
-        dark:bg-white/[0.05] dark:border-white/10 dark:text-slate-300 dark:hover:bg-white/[0.1] dark:hover:border-white/20 dark:hover:text-white">
-      <Check size={14} />
-      Marcar todos como lido
-    </button>
-  )}
-</div>
+        {/* Controls */}
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div className="flex gap-1">
+            {[
+              { key: 'todos', label: `Todos (${alertas.length})` },
+              { key: 'nao_lidos', label: `Não lidos (${unread})` },
+              { key: 'lidos', label: 'Lidos' },
+            ].map(f => (
+              <button key={f.key} onClick={() => setFilter(f.key)}
+                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all border
+                  ${filter === f.key 
+                    ? 'bg-amber-500/10 text-amber-600 border-amber-500/30 dark:bg-amber-500/20 dark:text-amber-400' 
+                    : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-200/50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/[0.07]'}`}>
+                {f.label}
+              </button>
+            ))}
+          </div>
+          
+          {/* Botão de Marcar Todos - Agora funciona globalmente! */}
+          {unread > 0 && (
+            <button onClick={marcarTodos}
+              className="flex items-center gap-1.5 px-3 py-1.5 border rounded text-sm transition-all
+                bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200 hover:text-slate-900
+                dark:bg-white/[0.05] dark:border-white/10 dark:text-slate-300 dark:hover:bg-white/[0.1] dark:hover:border-white/20 dark:hover:text-white">
+              <Check size={14} />
+              Marcar todos como lido
+            </button>
+          )}
+        </div>
 
         {/* Alert list */}
         <div className="space-y-2">

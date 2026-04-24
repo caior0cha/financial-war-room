@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './hooks/useTheme';
+import { AlertsProvider } from './hooks/useAlerts';
 import Sidebar from './components/layout/Sidebar';
 import Overview  from './pages/Overview';
 import CashFlow  from './pages/CashFlow';
@@ -52,9 +53,11 @@ function Layout() {
 export default function App() {
   return (
     <ThemeProvider>
-      <BrowserRouter>
-        <Layout />
-      </BrowserRouter>
+      <AlertsProvider>
+        <BrowserRouter>
+          <Layout />
+        </BrowserRouter>
+      </AlertsProvider>
     </ThemeProvider>
   );
 }

@@ -14,27 +14,10 @@ import {
 import { fmt, deltaColor } from '../utils/helpers';
 import { KPICard, SectionHeader, Card, Badge, Progress, Divider, alertTypeStyle } from '../components/ui/index';
 import Topbar from '../components/layout/Topbar';
+import { CustomTooltip } from '../components/ui';
 
 const COLORS = { amber: '#F59E0B', emerald: '#10B981', blue: '#3B82F6', red: '#EF4444', violet: '#8B5CF6' };
 
-const CustomTooltip = ({ active, payload, label, currency = true }) => {
-  const validPayload = (payload || []).filter(p => p?.value !== null && p?.value !== undefined);
-  if (!active || !validPayload.length) return null;
-  return (
-    <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-xl text-xs mono">
-      <p className="text-slate-600 mb-2">{label}</p>
-      {validPayload.map((p, i) => (
-        <div key={i} className="flex items-center gap-2 mb-1">
-          <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: p.color }} />
-          <span className="text-slate-700">{p.name}:</span>
-          <span className="text-slate-900 font-medium">
-            {currency ? fmt.currency(p.value, true) : p.value}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-};
 
 // Revenue area chart
 function RevenueChart() {
@@ -68,7 +51,7 @@ function RevenueChart() {
           width={70}
           tickMargin={8}
         />
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent', stroke: 'rgba(255,255,255,0.1)' }} />
         <Area type="monotone" dataKey="receita" name="Receita" stroke="#F59E0B" strokeWidth={2} fill="url(#recGrad)" dot={false} />
         <Area type="monotone" dataKey="lucroLiq" name="Lucro Líq." stroke="#10B981" strokeWidth={2} fill="url(#lucroGrad)" dot={false} />
       </AreaChart>
@@ -141,7 +124,7 @@ function ForecastChart() {
           tickMargin={8}
         />
         <YAxis tick={{ fontSize: 11, fill: '#475569', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false} tickFormatter={v => fmt.currency(v, true)} width={70} tickMargin={8} />
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent', stroke: 'rgba(255,255,255,0.1)' }} />
         <ReferenceLine x={monthlyRevenue.slice(-3)[2].mes} stroke="rgba(255,255,255,0.15)" strokeDasharray="4 4" />
         <Line type="monotone" dataKey="realizado"  name="Realizado" stroke="#F59E0B" strokeWidth={2} dot={false} connectNulls={false} />
         <Line type="monotone" dataKey="projetada"  name="Projetado" stroke="#3B82F6" strokeWidth={2} strokeDasharray="5 4" dot={false} connectNulls={false} />
@@ -160,7 +143,7 @@ function DespesasChart() {
         <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
         <XAxis dataKey="mes" tick={{ fontSize: 11, fill: '#475569', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false} />
         <YAxis tick={{ fontSize: 11, fill: '#475569', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false} tickFormatter={v => fmt.currency(v, true)} width={62} />
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent', stroke: 'rgba(255,255,255,0.1)' }} />
         <Legend wrapperStyle={{ fontSize: 11, fontFamily: 'JetBrains Mono', color: '#475569' }} />
         <Bar dataKey="RH"         name="RH"         stackId="a" fill="#8B5CF6" />
         <Bar dataKey="Operações"  name="Operações"  stackId="a" fill="#3B82F6" />

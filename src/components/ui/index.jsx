@@ -189,3 +189,35 @@ export function alertTypeStyle(tipo) {
     success: { bar: 'bg-emerald-500', text: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
   }[tipo];
 }
+export function CustomTooltip({ active, payload, label }) {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 p-3 rounded-lg shadow-xl shadow-slate-200/20 dark:shadow-none min-w-[150px]">
+        <p className="text-slate-800 dark:text-slate-200 font-medium text-sm mb-2">
+          {label}
+        </p>
+        <div className="flex flex-col gap-1.5">
+          {payload.map((item, index) => (
+            <div key={index} className="flex items-center justify-between text-sm">
+              <div className="flex items-center gap-2">
+                <span 
+                  className="w-2.5 h-2.5 rounded-full" 
+                  style={{ backgroundColor: item.color || item.fill }} 
+                />
+                <span className="text-slate-500 dark:text-slate-400 capitalize">
+                  {item.name}
+                </span>
+              </div>
+              <span className="text-slate-800 dark:text-slate-200 font-medium ml-4">
+                {typeof item.value === 'number' 
+                  ? item.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                  : item.value}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  return null;
+}

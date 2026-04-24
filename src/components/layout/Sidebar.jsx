@@ -2,12 +2,13 @@ import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, TrendingUp, ShoppingCart, DollarSign,
   BarChart3, CreditCard, Bell, ChevronLeft, ChevronRight,
-  Zap, AlertTriangle,
+  Zap,
 } from 'lucide-react';
-import { alertas } from '../../data/mockData';
+// IMPORT ATUALIZADO: Usando o Hook em vez do mockData
+import { useAlerts } from '../../hooks/useAlerts'; 
 
 const nav = [
-  { to: '/',         icon: LayoutDashboard, label: 'Visão Geral'   },
+  { to: '/',        icon: LayoutDashboard, label: 'Visão Geral'   },
   { to: '/cashflow', icon: DollarSign,      label: 'Fluxo de Caixa'},
   { to: '/vendas',   icon: TrendingUp,      label: 'Vendas'        },
   { to: '/compras',  icon: ShoppingCart,    label: 'Compras'       },
@@ -16,9 +17,10 @@ const nav = [
   { to: '/alertas',  icon: Bell,            label: 'Alertas'       },
 ];
 
-const unread = alertas.filter(a => !a.lido).length;
-
 export default function Sidebar({ collapsed, setCollapsed }) {
+  // LENDO DO CONTEXTO: O número agora atualiza sozinho
+  const { unreadCount } = useAlerts();
+
   return (
     <aside
       className={`sidebar-transition flex-shrink-0 flex flex-col h-screen sticky top-0 z-30
@@ -56,10 +58,10 @@ export default function Sidebar({ collapsed, setCollapsed }) {
             <Icon size={16} className="flex-shrink-0" />
             {!collapsed && <span className="truncate font-body">{label}</span>}
 
-            {/* Badge alertas */}
-            {label === 'Alertas' && unread > 0 && (
+            {/* Badge alertas: AGORA USA O unreadCount DO HOOK */}
+            {label === 'Alertas' && unreadCount > 0 && (
               <span className={`ml-auto flex-shrink-0 w-4 h-4 rounded-full bg-red-500 text-white text-[9px] font-bold flex items-center justify-center alert-dot ${collapsed ? 'absolute top-1 right-1' : ''}`}>
-                {unread}
+                {unreadCount}
               </span>
             )}
 
