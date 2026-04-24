@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --accent: #2563EB;
+  --accent-dim: #1D4ED8;
+  --accent-glow: rgba(37,99,235,0.16);
+  --positive: #10B981;
+  --negative: #EF4444;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #f7f8fa;
+  color: #1f2937;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark body {
+  background: #0b1220;
+  color: #e2e8f0;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cfd6e2; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+.sidebar-transition { transition: width 0.25s cubic-bezier(0.4,0,0.2,1); }
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-page { animation: fadeSlide 0.25s ease-out; }
+
+@keyframes alertPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.alert-dot { animation: alertPulse 1.5s ease-in-out infinite; }
+
+.recharts-default-tooltip {
+  background: #ffffff !important;
+  border: 1px solid #d1d9e6 !important;
+  border-radius: 6px !important;
+  color: #334155 !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+}
+
+/* Theme-aware retheme */
+.light .bg-\[\#1C1C1E\] { background-color: #ffffff !important; }
+.light .bg-white\/\[0\.03\], .light .dark\:bg-white\/\[0\.03\], .light .bg-white\/\[0\.04\] { background-color: #f8fafc !important; }
+.light .bg-white\/\[0\.01\] { background-color: #ffffff !important; }
+.light .hover\:bg-white\/\[0\.05\]:hover, .light .hover\:bg-white\/\[0\.07\]:hover, .light .hover\:bg-white\/\[0\.08\]:hover, .light .hover\:bg-white\/\[0\.12\]:hover { background-color: #eef2f7 !important; }
+.light .border-white\/\[0\.04\], .light .border-white\/\[0\.06\], .light .border-white\/\[0\.07\], .light .border-white\/\[0\.08\], .light .border-white\/10 { border-color: #dbe3ee !important; }
+.light .text-white { color: #0f172a !important; }
+.light .text-gray-600 { color: #64748b !important; }
+.light .text-amber-400 { color: #2563eb !important; }
+.light .bg-amber-500\/10, .light .bg-amber-500\/20, .light .bg-amber-500\/5 { background-color: rgba(37, 99, 235, 0.12) !important; }
+.light .border-amber-500\/20, .light .border-amber-500\/30 { border-color: rgba(37, 99, 235, 0.28) !important; }
+.light .focus\:border-amber-500\/40:focus { border-color: rgba(37, 99, 235, 0.4) !important; }
+.light .bg-surface-950, .light .dark\:bg-surface-950 { background-color: #f1f5f9 !important; }
+
+.dark .bg-\[\#1C1C1E\] { background-color: #1c1c1e !important; }
+.dark .bg-white\/\[0\.03\], .dark .dark\:bg-white\/\[0\.03\], .dark .bg-white\/\[0\.04\] { background-color: rgba(255, 255, 255, 0.04) !important; }
+.dark .bg-white\/\[0\.01\] { background-color: rgba(255, 255, 255, 0.02) !important; }
+.dark .hover\:bg-white\/\[0\.05\]:hover, .dark .hover\:bg-white\/\[0\.07\]:hover, .dark .hover\:bg-white\/\[0\.08\]:hover, .dark .hover\:bg-white\/\[0\.12\]:hover { background-color: rgba(255, 255, 255, 0.08) !important; }
+.dark .border-white\/\[0\.04\], .dark .border-white\/\[0\.06\], .dark .border-white\/\[0\.07\], .dark .border-white\/\[0\.08\], .dark .border-white\/10 { border-color: rgba(255, 255, 255, 0.14) !important; }
+.dark .text-white { color: #f8fafc !important; }
+.dark .text-gray-600 { color: #94a3b8 !important; }
+.dark .text-amber-400 { color: #fbbf24 !important; }
+.dark .bg-amber-500\/10, .dark .bg-amber-500\/20, .dark .bg-amber-500\/5 { background-color: rgba(245, 158, 11, 0.14) !important; }
+.dark .border-amber-500\/20, .dark .border-amber-500\/30 { border-color: rgba(245, 158, 11, 0.3) !important; }
+.dark .focus\:border-amber-500\/40:focus { border-color: rgba(245, 158, 11, 0.45) !important; }
+.dark .bg-surface-950, .dark .dark\:bg-surface-950 { background-color: #0f172a !important; }
+
+/* Improve dark-mode readability for rethemed slate tones */
+.dark .text-slate-900 { color: #f8fafc !important; }
+.dark .text-slate-800 { color: #e2e8f0 !important; }
+.dark .text-slate-700 { color: #cbd5e1 !important; }
+.dark .text-slate-600 { color: #94a3b8 !important; }
+.dark .text-slate-500 { color: #64748b !important; }
