@@ -8,6 +8,7 @@ import { cashFlow, contasReceber, contasPagar, monthlyRevenue } from '../data/mo
 import { fmt, exportCSV } from '../utils/helpers';
 import { SectionHeader, Card, KPICard, Divider, Toolbar } from '../components/ui/index';
 import Topbar from '../components/layout/Topbar';
+import { CustomTooltip } from '../components/ui';
 
 const CTooltip = ({ active, payload, label }) => {
   const validPayload = (payload || []).filter(p => p?.value !== null && p?.value !== undefined);
@@ -103,7 +104,7 @@ export default function CashFlowPage({ onMobileMenu }) {
                   interval={Math.floor(days / 8)} />
                 <YAxis tick={{ fontSize: 11, fill: '#475569', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false}
                   tickFormatter={v => fmt.currency(v, true)} width={70} />
-                <Tooltip content={<CTooltip />} />
+                <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent', stroke: 'rgba(255,255,255,0.1)' }} />
                 <ReferenceLine y={800000} stroke="rgba(239,68,68,0.3)" strokeDasharray="4 3" label={{ value: 'Mín.', fill: '#EF4444', fontSize: 9 }} />
                 <Area type="monotone" dataKey="saldo" name="Saldo" stroke="#F59E0B" strokeWidth={2} fill="url(#saldoGrad)" dot={false} />
               </AreaChart>
@@ -143,7 +144,7 @@ export default function CashFlowPage({ onMobileMenu }) {
               <XAxis dataKey="mes" tick={{ fontSize: 11, fill: '#475569', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false} />
               <YAxis tick={{ fontSize: 11, fill: '#475569', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false}
                 tickFormatter={v => fmt.currency(v, true)} width={70} />
-              <Tooltip content={<CTooltip />} />
+              <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent', stroke: 'rgba(255,255,255,0.1)' }} />
               <Legend wrapperStyle={{ fontSize: 11, fontFamily: 'JetBrains Mono', color: '#475569' }} />
               <Bar dataKey="entradas" name="Entradas" fill="rgba(16,185,129,0.6)" radius={[3,3,0,0]} />
               <Bar dataKey="saidas"   name="Saídas"   fill="rgba(239,68,68,0.6)"  radius={[3,3,0,0]} />
