@@ -8,6 +8,7 @@ import { pedidosCompra } from '../data/mockData';
 import { fmt, exportCSV, filterRows, paginate } from '../utils/helpers';
 import { KPICard, SectionHeader, Badge, Toolbar, DataTable } from '../components/ui/index';
 import Topbar from '../components/layout/Topbar';
+import { CustomTooltip } from '../components/ui';
 
 const CTooltip = ({ active, payload, label }) => {
   const validPayload = (payload || []).filter(p => p?.value !== null && p?.value !== undefined);
@@ -136,7 +137,7 @@ export default function ComprasPage({ onMobileMenu }) {
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" horizontal={false} />
                 <XAxis type="number" tick={{ fontSize: 11, fill: '#475569', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false} tickFormatter={v => fmt.currency(v, true)} />
                 <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: '#334155', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false} width={110} />
-                <Tooltip content={<CTooltip />} />
+                <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent', stroke: 'rgba(255,255,255,0.1)' }} />
                 <Bar dataKey="valor" name="Gasto" fill="#F59E0B" radius={[0,3,3,0]} opacity={0.85} />
               </BarChart>
             </ResponsiveContainer>
