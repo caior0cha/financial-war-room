@@ -8,6 +8,7 @@ import { contasReceber, contasPagar, topClientes, pedidosVenda } from '../data/m
 import { fmt, exportCSV, filterRows, paginate } from '../utils/helpers';
 import { KPICard, SectionHeader, Badge, Toolbar, DataTable, Progress } from '../components/ui/index';
 import Topbar from '../components/layout/Topbar';
+import { CustomTooltip } from '../components/ui';
 
 const REND_COLORS = ['#10B981','#F59E0B','#F97316','#EF4444'];
 
@@ -161,7 +162,7 @@ export default function ContasPage({ onMobileMenu }) {
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
                 <XAxis dataKey="faixa" tick={{ fontSize: 11, fill: '#475569', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false} />
                 <YAxis tick={{ fontSize: 11, fill: '#475569', fontFamily: 'JetBrains Mono' }} tickLine={false} axisLine={false} tickFormatter={v => fmt.currency(v, true)} width={62} />
-                <Tooltip content={<CTooltip />} />
+                <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent', stroke: 'rgba(255,255,255,0.1)' }} />
                 <Legend wrapperStyle={{ fontSize: 11, fontFamily: 'JetBrains Mono', color: '#475569' }} />
                 <Bar dataKey="receber" name="A Receber" fill="#10B981" radius={[3,3,0,0]} opacity={0.8} />
                 <Bar dataKey="pagar"   name="A Pagar"   fill="#EF4444" radius={[3,3,0,0]} opacity={0.8} />
