@@ -56,6 +56,24 @@ body {
   font-family: 'JetBrains Mono', monospace !important;
   font-size: 11px !important;
 }
+/* src/index.css */
+
+/* Remove o fundo branco padrão e a borda que o Recharts injeta no Tooltip */
+.recharts-tooltip-wrapper {
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Garante que o cursor (a sombra da barra) não seja um bloco cinzento opaco */
+.recharts-rectangle.recharts-tooltip-cursor {
+  fill: rgba(255, 255, 255, 0.05) !important;
+}
+
+.dark .recharts-rectangle.recharts-tooltip-cursor {
+  fill: rgba(255, 255, 255, 0.05) !important;
+}
 
 /* Theme-aware retheme */
 .light .bg-\[\#1C1C1E\] { background-color: #ffffff !important; }
