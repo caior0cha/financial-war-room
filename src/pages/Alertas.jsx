@@ -61,29 +61,33 @@ export default function AlertasPage({ onMobileMenu }) {
           })}
         </div>
 
-        {/* Controls */}
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <div className="flex gap-1">
-            {[
-              { key: 'todos', label: `Todos (${alertas.length})` },
-              { key: 'nao_lidos', label: `Não lidos (${unread})` },
-              { key: 'lidos', label: 'Lidos' },
-            ].map(f => (
-              <button key={f.key} onClick={() => setFilter(f.key)}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all
-                  ${filter === f.key ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'text-slate-600 hover:text-slate-900 hover:bg-white/[0.07]'}`}>
-                {f.label}
-              </button>
-            ))}
-          </div>
-          {unread > 0 && (
-            <button onClick={marcarTodos}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded text-sm text-slate-700 hover:text-slate-900 transition-all">
-              <Check size={12} />
-              Marcar todos como lido
-            </button>
-          )}
-        </div>
+{/* Controls */}
+<div className="flex items-center justify-between flex-wrap gap-3">
+  <div className="flex gap-1">
+    {[
+      { key: 'todos', label: `Todos (${alertas.length})` },
+      { key: 'nao_lidos', label: `Não lidos (${unread})` },
+      { key: 'lidos', label: 'Lidos' },
+    ].map(f => (
+      <button key={f.key} onClick={() => setFilter(f.key)}
+        className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all border
+          ${filter === f.key 
+            ? 'bg-amber-500/10 text-amber-600 border-amber-500/30 dark:bg-amber-500/20 dark:text-amber-400' 
+            : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-200/50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/[0.07]'}`}>
+        {f.label}
+      </button>
+    ))}
+  </div>
+  {unread > 0 && (
+    <button onClick={marcarTodos}
+      className="flex items-center gap-1.5 px-3 py-1.5 border rounded text-sm transition-all
+        bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200 hover:text-slate-900
+        dark:bg-white/[0.05] dark:border-white/10 dark:text-slate-300 dark:hover:bg-white/[0.1] dark:hover:border-white/20 dark:hover:text-white">
+      <Check size={14} />
+      Marcar todos como lido
+    </button>
+  )}
+</div>
 
         {/* Alert list */}
         <div className="space-y-2">
@@ -111,13 +115,17 @@ export default function AlertasPage({ onMobileMenu }) {
                     {!a.lido && <span className={`w-1.5 h-1.5 rounded-full alert-dot ${style.bar}`} />}
                   </div>
                   <p className="text-white text-sm font-medium mb-1">{a.titulo}</p>
-                  <p className="text-slate-600 text-sm">{a.msg}</p>
-                  <p className="text-slate-600 text-xs mono mt-2">{a.data}</p>
+                  <p className="text-slate-400 text-sm">{a.msg}</p>
+                  <p className="text-slate-500 text-xs mono mt-2">{a.data}</p>
                 </div>
                 {!a.lido && (
                   <button onClick={() => marcarLido(a.id)}
-                    className="flex-shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded text-[11px] text-slate-700 hover:text-slate-900 transition-all">
-                    <Check size={11} />
+                    className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 
+                      bg-white/[0.03] hover:bg-white/[0.1] 
+                      border border-current opacity-60 hover:opacity-100 
+                      rounded text-[11px] font-bold uppercase tracking-wider 
+                      ${style.text} transition-all`}>
+                    <Check size={12} />
                     Lido
                   </button>
                 )}
